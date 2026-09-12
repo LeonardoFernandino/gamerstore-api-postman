@@ -23,7 +23,7 @@ Este repositório contém a suíte de testes automatizados de API para o e-comme
 * **SLA & Performance:** Validação de tempo de resposta em requisições críticas.
 
 ## 📊 Execução da Collection (Runner)
-![Postman Runner Result](https://github.com/seu-usuario/gamerstore-api-postman/raw/main/runner-result.png)
+![Postman Runner Result](runner.png)
 
 ## 📁 Como Executar o Projeto
 

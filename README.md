@@ -29,7 +29,7 @@ Este repositório contém a suíte de testes automatizados de API para o e-comme
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/LeonardoFernandino/gamerstore-api-postman.git](https://github.com/LeonardoFernandino/gamerstore-api-postman.git)
+   git clone https://github.com/LeonardoFernandino/gamerstore-api-postman.git
    ```
 2. Abra o **Postman**.
 3. Importe a Collection `GamerStore.postman_collection.json`.

@@ -26,6 +26,12 @@ Este repositório contém a suíte de testes automatizados de API para o e-comme
 ![Postman Runner Result](https://github.com/seu-usuario/gamerstore-api-postman/raw/main/runner-result.png)
 
 ## 📁 Como Executar o Projeto
+
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/seu-usuario/gamerstore-api-postman.git](https://github.com/seu-usuario/gamerstore-api-postman.git)
+   git clone [https://github.com/LeonardoFernandino/gamerstore-api-postman.git](https://github.com/LeonardoFernandino/gamerstore-api-postman.git)
+   ```
+2. Abra o **Postman**.
+3. Importe a Collection `GamerStore.postman_collection.json`.
+4. Importe o arquivo de Environment (caso tenha exportado).
+5. Execute a suíte através do **Collection Runner**.

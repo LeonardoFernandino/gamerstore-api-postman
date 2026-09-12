@@ -1,0 +1,233 @@
+{
+  "info": {
+    "_postman_id": "e7ec2df5-26cc-496f-9fac-7905d5a577e0",
+    "name": "GamerStore",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57685008",
+    "_collection_link": "https://go.postman.co/collection/57685008-e7ec2df5-26cc-496f-9fac-7905d5a577e0?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login Successful",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status Code 200 OK\r\npm.test(\"Status code é 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Validar e extrair o Token de Autenticação usando ES6 moderno (const)\r\npm.test(\"Retornou token JWT\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"authorization\");\r\n    \r\n    // Salva o token na variável de ambiente\r\n    pm.environment.set(\"token\", jsonData.authorization);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"fulano@qa.com\",\r\n  \"password\": \"teste\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status Code 201 Created\r\npm.test(\"Status code é 201 Created\", () => {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n// Validar resposta e capturar ID do produto gerado\r\npm.test(\"Produto cadastrado com sucesso\", () => {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Cadastro realizado com sucesso\");\r\n    pm.expect(jsonData).to.have.property(\"_id\");\r\n\r\n    // Salva o ID do produto para testes futuros (ex: busca ou deleção)\r\n    pm.environment.set(\"idProduto\", jsonData._id);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nome\": \"Teclado Mecânico Gamer RGB - GamerStore\",\r\n  \"preco\": 350,\r\n  \"descricao\": \"Teclado Switch Blue\",\r\n  \"quantidade\": 10\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/produtos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "produtos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Product by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status Code 200 OK\r\npm.test(\"Status code é 200 OK\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Validar se o produto retornado é o mesmo que cadastramos\r\npm.test(\"Dados do produto correspondem ao cadastrado\", () => {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"nome\");\r\n    pm.expect(jsonData).to.have.property(\"preco\");\r\n    pm.expect(jsonData._id).to.eql(pm.environment.get(\"idProduto\"));\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/produtos/{{idProduto}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "produtos",
+            "{{idProduto}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate Email Error (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status Code 400 Bad Request\r\npm.test(\"Status code é 400 Bad Request\", () => {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n// Validar mensagem da regra de negócio\r\npm.test(\"Mensagem de erro: Este email já está sendo usado\", () => {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Este email já está sendo usado\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nome\": \"Usuário Teste QA\",\r\n  \"email\": \"fulano@qa.com\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "usuarios"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status 200 OK\r\npm.test(\"Status code é 200 OK - Produto Editado\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Validar mensagem de sucesso na alteração\r\npm.test(\"Mensagem: Registro alterado com sucesso\", () => {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Registro alterado com sucesso\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nome\": \"Teclado Mecânico RGB Pro (Editado) - GamerStore\",\r\n  \"preco\": 450,\r\n  \"descricao\": \"Switch Red - Edição Especial\",\r\n  \"quantidade\": 15\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/produtos/{{idProduto}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "produtos",
+            "{{idProduto}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Validar Status 200 OK\r\npm.test(\"Status code é 200 OK - Produto Deletado\", () => {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Validar mensagem de sucesso na deleção\r\npm.test(\"Mensagem: Registro excluído com sucesso\", () => {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.eql(\"Registro excluído com sucesso\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/produtos/{{idProduto}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "produtos",
+            "{{idProduto}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

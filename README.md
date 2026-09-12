@@ -1,4 +1,4 @@
-# 🎮 GamerStore - API Automation Suite (Postman & JS)
+# 🎮 GamerStore - API Automation Suite (Postman & JS).
 
 Este repositório contém a suíte de testes automatizados de API para o e-commerce **GamerStore**, cobrindo fluxos de autenticação JWT, gestão de produtos (CRUD completo) e cenários de exceção com tratamento de regras de negócio.
 
